@@ -56,7 +56,6 @@ BBRv2内核:
     - bash jobs/bbrv2.sh
 
 清理编译记录:
-  needs: ["检查更新"]
   stage: .post
   when: manual
   script:
