@@ -31,12 +31,13 @@ ss-tool:
     - bash jobs/push.sh
   script:
     - gcc -s -fPIE -O3 -o usr/bin/ss-tool src/main.c
+    - sed -i "s/$ss_tool_old/$ss_tool/g" version/version
   after_script:
-    - git add usr/bin/ss-tool
+    - git add usr/bin/ss-tool version/version
     - git commit -m "更新ss-tool"
     - git push -o ci.skip origin HEAD:${CI_COMMIT_REF_NAME}
 
-shadowsocks_rust:
+shadowsocks-rust:
   rules:
     - if: $shadowsocks_rust
   image: rust:latest
