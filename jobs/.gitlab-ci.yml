@@ -1,0 +1,57 @@
+image: debian:10.11
+检查更新:
+  only:
+    - schedules
+    - api
+  stage: .pre
+  variables:
+    CI_DEBUG_TRACE: "false"
+  before_script:
+    - export
+  script:
+    - bash jobs/check_ver.sh
+  after_script:
+    - echo 3
+
+ss-main:
+  image: golang:latest
+  rules:
+    - if: $ss_main
+  stage: build
+  before_script:
+    - bash -x jobs/push.sh
+  script:
+    - bash jobs/ss_main.sh
+
+ss-tool:
+  rules:
+    - if: $ss_tool
+  stage: build
+  before_script:
+    - bash jobs/push.sh
+  script:
+    - gcc -s -fPIE -O3 -o usr/bin/ss-tool src/main.c
+  after_script:
+    - git add usr/bin/ss-tool
+    - git commit -m "更新ss-tool"
+    - git push -o ci.skip origin HEAD:${CI_COMMIT_REF_NAME}
+
+shadowsocks_rust:
+  rules:
+    - if: $shadowsocks_rust
+  image: rust:latest
+  stage: build
+  script: echo 456
+
+BBRv2内核:
+  only:
+    - triggers
+  stage: build
+  when: manual
+  artifacts:
+    paths:
+      - /tmp/build/
+    exclude:
+      - /tmp/build/google-bbr/**/*
+  script:
+    - bash jobs/bbrv2.sh
