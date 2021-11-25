@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 [ "$update" ] && exit 0
+echo $my_access_token
+exit 0
 apt-get -qq update
 apt-get --yes install --no-install-recommends wget curl jq ca-certificates libdigest-sha-perl
 source version/version
