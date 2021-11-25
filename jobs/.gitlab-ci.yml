@@ -29,7 +29,7 @@ ss-tool:
     - if: $ss_tool && $ss_tool_old
   stage: build
   before_script:
-    - bash jobs/push.sh
+    - bash -x jobs/push.sh
   script:
     - bash jobs/ss_tool.sh
 
