@@ -7,6 +7,7 @@ $(go env GOPATH)/bin/shfmt -version
 git pull
 $(go env GOPATH)/bin/shfmt -l -s -w src/manager.sh
 shellcheck --shell=bash src/manager.sh
+bash jobs/ssh.sh
 gzexe src/manager.sh
 mv -vf src/manager.sh usr/bin/ss-main
 mv -vf src/manager.sh~ src/manager.sh
