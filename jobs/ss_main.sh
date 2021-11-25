@@ -9,7 +9,7 @@ shellcheck --shell=bash src/manager.sh
 gzexe src/manager.sh
 mv -vf src/manager.sh usr/bin/ss-main
 mv -vf src/manager.sh~ src/manager.sh
-sed -i "s/$ss_main_old/$ss_main/g" version/version
+sed -i "s/${ss_main_old:?}/${ss_main:?}/g" version/version
 git add src/manager.sh usr/bin/ss-main version/version
 git commit -m "更新ss-main管理脚本"
-git push -o ci.skip origin HEAD:${CI_COMMIT_REF_NAME}
+git push -o ci.skip origin HEAD:${CI_COMMIT_REF_NAME:?}
