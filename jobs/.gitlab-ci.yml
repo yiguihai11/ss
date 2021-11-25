@@ -53,7 +53,7 @@ BBRv2内核:
     - bash jobs/bbrv2.sh
 
 清理编译记录:
-  stage: build
+  stage: .post
   when: manual
   script:
     - bash jobs/clean_ci_log.sh
