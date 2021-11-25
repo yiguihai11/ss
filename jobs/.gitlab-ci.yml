@@ -16,7 +16,7 @@ image: debian:10.11
 ss-main:
   image: golang:latest
   rules:
-    - if: $ss_main
+    - if: $ss_main && $ss_main_old
   stage: build
   before_script:
     - bash -x jobs/push.sh
@@ -25,7 +25,7 @@ ss-main:
 
 ss-tool:
   rules:
-    - if: $ss_tool
+    - if: $ss_tool && $ss_tool_old
   stage: build
   before_script:
     - bash jobs/push.sh
@@ -34,7 +34,7 @@ ss-tool:
 
 shadowsocks-rust:
   rules:
-    - if: $shadowsocks_rust
+    - if: $shadowsocks_rust && $shadowsocks_rust_old
   image: rust:latest
   stage: build
   script: echo 456
