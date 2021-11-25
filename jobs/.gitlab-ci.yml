@@ -58,8 +58,6 @@ BBRv2内核:
     - bash jobs/bbrv2.sh
 
 清理编译记录:
-  only:
-    - triggers
   stage: build
   when: manual
   script:
