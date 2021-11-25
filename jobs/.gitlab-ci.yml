@@ -41,6 +41,7 @@ shadowsocks-rust:
   script: echo 456
 
 BBRv2内核:
+  needs: ["检查更新"]
   only:
     - triggers
     - schedules
@@ -55,6 +56,7 @@ BBRv2内核:
     - bash jobs/bbrv2.sh
 
 清理编译记录:
+  needs: ["检查更新"]
   stage: .post
   when: manual
   script:
