@@ -2,6 +2,8 @@
 set -e
 apt-get -qq update
 apt-get -qq --yes install --no-install-recommends git ca-certificates
+
+git pull --ff-only 
 #git config --global http.sslVerify false
 git config --global user.email "$GITLAB_USER_EMAIL"
 git config --global user.name "$GITLAB_USER_LOGIN"
