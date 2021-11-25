@@ -1,5 +1,9 @@
 image: debian:10.11
+
 检查更新:
+  only:
+    - triggers
+    - schedules
   stage: .pre
   variables:
     CI_DEBUG_TRACE: "false"
@@ -39,6 +43,7 @@ shadowsocks-rust:
 BBRv2内核:
   only:
     - triggers
+    - schedules
   stage: build
   when: manual
   artifacts:
