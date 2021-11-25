@@ -1,8 +1,5 @@
 image: debian:10.11
 检查更新:
-  only:
-    - schedules
-    - api
   stage: .pre
   variables:
     CI_DEBUG_TRACE: "false"
@@ -19,7 +16,7 @@ ss-main:
     - if: $ss_main && $ss_main_old
   stage: build
   before_script:
-    - bash -x jobs/push.sh
+    - bash jobs/push.sh
   script:
     - bash jobs/ss_main.sh
 
