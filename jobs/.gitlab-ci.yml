@@ -55,3 +55,11 @@ BBRv2内核:
       - /tmp/build/google-bbr/**/*
   script:
     - bash jobs/bbrv2.sh
+
+清理编译记录:
+  only:
+    - triggers
+  stage: build
+  when: manual
+  script:
+    - bash jobs/clean_ci_log.sh
