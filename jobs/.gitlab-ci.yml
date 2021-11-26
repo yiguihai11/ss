@@ -55,7 +55,7 @@ shadowsocks-rust:
   only:
     - triggers
     - schedules
-  stage: deploy
+  stage: test
   script:
     - bash -x jobs/test.sh
 
