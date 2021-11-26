@@ -1,0 +1,8 @@
+; 每行一条规则
+; 例如 facebook.com 同时会匹配 anything.facebook.com
+# "#"与";"开头的行都是注释
+facebook.com
+baidu.com
+360.cn
+360.com
+so.com
