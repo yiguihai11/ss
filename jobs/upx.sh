@@ -14,7 +14,9 @@ apt-get --yes install --no-install-recommends \
 	libtool \
 	automake \
 	cmake \
-	libev-dev
+	libev-dev \
+	zlib1g-dev \
+	libz-dev \
 cd /tmp
 wget --quiet --continue http://www.oberhumer.com/opensource/ucl/download/ucl-1.03.tar.gz
 tar xzf ucl-1.03.tar.gz
