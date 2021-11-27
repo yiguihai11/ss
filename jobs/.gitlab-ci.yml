@@ -81,12 +81,18 @@ shadowsocks-rust:
     - bash jobs/deploy.sh
 
 清理编译记录:
+  only:
+    - triggers
+    - schedules
   stage: deploy
   when: manual
   script:
     - bash jobs/clean_ci_log.sh
 
 重置提交记录:
+  only:
+    - triggers
+    - schedules
   stage: deploy
   when: manual
   script:
