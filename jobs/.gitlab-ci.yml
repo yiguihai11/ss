@@ -96,6 +96,7 @@ php:
   retry: 2
 
 nginx-quic:
+  image: golang:latest
   rules:
     - if: $nginx_quic != 'false' && $nginx_quic_old
   stage: build
