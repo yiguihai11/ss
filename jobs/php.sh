@@ -43,9 +43,10 @@ make clean
 strip /etc/ssmanager/usr/sbin/php-fpm /etc/ssmanager/usr/bin/php
 bash ${CI_PROJECT_DIR}/jobs/push.sh
 echo "$php_info" | base64 -d >>${CI_PROJECT_DIR:?}/temp/upgrade.log
-mv -vf /etc/ssmanager/usr/sbin/php-fpm ${CI_PROJECT_DIR}/usr/sbin
-mv -vf /etc/ssmanager/usr/bin/php ${CI_PROJECT_DIR}/usr/bin
+mv -vf /etc/ssmanager/usr ${CI_PROJECT_DIR:?}/php
 cd ${CI_PROJECT_DIR:?}
+cp -vf php/bin/php usr/bin
+cp -vf php/sbin/php-fpm /usr/sbin
 sed -i "s/${php_old:?}/${php:?}/g" version/version
 git add usr/sbin/php-fpm usr/bin/php version/version temp/upgrade.log
 git commit -m "更新php"
