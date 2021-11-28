@@ -11,12 +11,12 @@ image: debian
     #- echo 1
   script:
     #- bash jobs/check_ver.sh
-    - date > /tmp/time.log
+    - date > time.log
   after_script:
     - export
   artifacts:
     paths:
-      - /tmp
+      - time.log
   retry: 2
 
 ss-main:
