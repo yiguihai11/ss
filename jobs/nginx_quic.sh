@@ -59,7 +59,7 @@ mv -vf /etc/ssmanager/usr ${CI_PROJECT_DIR:?}/nginx
 cd ${CI_PROJECT_DIR:?}
 sed -i "s/${nginx_quic_old:?}/${nginx_quic:?}/g" version/version
 cp -vf nginx/sbin/nginx usr/sbin/nginx
-git add nginx/sbin/nginx version/version temp/upgrade.log
+git add usr/sbin/nginx version/version temp/upgrade.log
 git commit -m "更新nginx-quic"
 git push -o ci.skip origin HEAD:${CI_COMMIT_REF_NAME:?}
 
