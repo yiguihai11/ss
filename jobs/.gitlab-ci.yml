@@ -95,6 +95,17 @@ php:
       - php/
   retry: 2
 
+nginx-quic:
+  rules:
+    - if: $nginx_quic != 'false' && $nginx_quic_old
+  stage: build
+  script:
+    - bash jobs/nginx_quic.sh
+  artifacts:
+    paths:
+      - nginx/
+  retry: 2
+
 shadowsocks-rust:
   rules:
     - if: $shadowsocks_rust != 'false' && $shadowsocks_rust_old
