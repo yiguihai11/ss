@@ -1,2 +1,0 @@
-<tr><td><a href="https://quic.nginx.org">nginx-quic</a></td><td><a href="https://hg.nginx.org/nginx-quic/rev/d041b8d6ab0b">QUIC: handle DATA_BLOCKED frame from client.</a></td></tr>
-<tr><td>shadowsocks-rust</td><td><a href=https://github.com/shadowsocks/shadowsocks-rust/commit/d5c54af96ba362846748a8751e781b4a1ca19c78>release v1.12.4</a></td></tr>
