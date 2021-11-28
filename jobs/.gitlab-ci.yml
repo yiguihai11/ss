@@ -10,13 +10,9 @@ image: debian
   #before_script:
     #- echo 1
   script:
-    #- bash jobs/check_ver.sh
-    - date > time.log
+    - bash jobs/check_ver.sh
   after_script:
     - export
-  artifacts:
-    paths:
-      - time.log
   retry: 2
 
 ss-main:
@@ -113,9 +109,9 @@ BBRv2内核:
   when: manual
   artifacts:
     paths:
-      - /tmp/build/
+      - build/
     exclude:
-      - /tmp/build/google-bbr/**/*
+      - build/google-bbr/**/*
   script:
     - bash jobs/bbrv2.sh
 
