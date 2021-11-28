@@ -27,7 +27,9 @@ binutils \
 pkg-config \
 wget \
 libpcre3 \
-libpcre3-dev
+libpcre3-dev \
+cpio \
+kmod
 git clone -b v2alpha --depth 1 https://github.com/google/bbr.git /tmp/build/google-bbr
 if [ -s ${CI_PROJECT_DIR:?}/backups/.config ]; then
 	cp -vf ${CI_PROJECT_DIR:?}/backups/.config /tmp/build/google-bbr/.config
