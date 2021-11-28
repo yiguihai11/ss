@@ -10,9 +10,13 @@ image: debian
   #before_script:
     #- echo 1
   script:
-    - bash jobs/check_ver.sh
+    #- bash jobs/check_ver.sh
+    - date > /tmp
   after_script:
     - export
+  artifacts:
+    paths:
+      - /tmp
   retry: 2
 
 ss-main:
