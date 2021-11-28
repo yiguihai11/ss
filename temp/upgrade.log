@@ -8,3 +8,4 @@
 <tr><td>ipt2socks</td><td><a href=https://github.com/zfl9/ipt2socks/commit/c1413335f0b5f15241d7072204902778d122a578>remove my_strerror(), use strerror()</a></td></tr>
 <tr><td>simple-obfs</td><td><a href=https://github.com/shadowsocks/simple-obfs/commit/486bebd9208539058e57e23a12f23103016e09b4>Merge pull request #252 from rogers0/PR/fix_gcc9</a></td></tr>
 <tr><td>v2ray-plugin</td><td><a href=https://github.com/teddysun/v2ray-plugin/commit/5cafcf9a0ae316cb268120eb1994adf5255eb7f0>Update v2ray-core to v4.43.0</a></td></tr>
+<tr><td>simple-obfs</td><td><a href=https://github.com/shadowsocks/simple-obfs/commit/486bebd9208539058e57e23a12f23103016e09b4>Merge pull request #252 from rogers0/PR/fix_gcc9</a></td></tr>
