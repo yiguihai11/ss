@@ -110,34 +110,34 @@ else
 fi
 
 if [ "${i:=0}" -gt 0 ]; then
-curl -X POST \
-	-F "token=$ci_token" \
-	-F "ref=${CI_BUILD_REF_NAME:?}" \
-	-F "variables[CI_DEBUG_TRACE]=false" \
-	-F "variables[update]=true" \
-	-F "variables[ss_main_old]=${ss_main_old:=false}" \
-	-F "variables[ss_main]=${ss_main:=false}" \
-	-F "variables[ss_tool_old]=${ss_tool_old:=false}" \
-	-F "variables[ss_tool]=${ss_tool:=false}" \
-	-F "variables[ipt2socks_old]=${ipt2socks_old:=false}" \
-	-F "variables[ipt2socks]=${ipt2socks:=false}" \
-	-F "variables[kcptun_old]=${kcptun_old:=false}" \
-	-F "variables[kcptun]=${kcptun:=false}" \
-	-F "variables[v2ray_plugin_old]=${v2ray_plugin_old:=false}" \
-	-F "variables[v2ray_plugin]=${v2ray_plugin:=false}" \
-	-F "variables[qrencode_old]=${qrencode_old:=false}" \
-	-F "variables[qrencode]=${qrencode:=false}" \
-	-F "variables[simple_obfs_old]=${simple_obfs_old:=false}" \
-	-F "variables[simple_obfs]=${simple_obfs:=false}" \
-	-F "variables[shadowsocksr_libev_old]=${shadowsocksr_libev_old:=false}" \
-	-F "variables[shadowsocksr_libev]=${shadowsocksr_libev:=false}" \
-	-F "variables[php_old]=${php_old:=false}" \
-	-F "variables[php]=${php:=false}" \
-	-F "variables[php_info]=${php_info}" \
-	-F "variables[nginx_quic_old]=${nginx_quic_old:=false}" \
-	-F "variables[nginx_quic]=${nginx_quic:=false}" \
-	-F "variables[nginx_quic_info]=${nginx_quic_info}" \
-	-F "variables[shadowsocks_rust_old]=${shadowsocks_rust_old:=false}" \
-	-F "variables[shadowsocks_rust]=${shadowsocks_rust:=false}" \
-	https://gitlab.com/api/v4/projects/${CI_PROJECT_ID:?}/trigger/pipeline
+	curl -X POST \
+		-F "token=$ci_token" \
+		-F "ref=${CI_BUILD_REF_NAME:?}" \
+		-F "variables[CI_DEBUG_TRACE]=false" \
+		-F "variables[update]=true" \
+		-F "variables[ss_main_old]=${ss_main_old:=false}" \
+		-F "variables[ss_main]=${ss_main:=false}" \
+		-F "variables[ss_tool_old]=${ss_tool_old:=false}" \
+		-F "variables[ss_tool]=${ss_tool:=false}" \
+		-F "variables[ipt2socks_old]=${ipt2socks_old:=false}" \
+		-F "variables[ipt2socks]=${ipt2socks:=false}" \
+		-F "variables[kcptun_old]=${kcptun_old:=false}" \
+		-F "variables[kcptun]=${kcptun:=false}" \
+		-F "variables[v2ray_plugin_old]=${v2ray_plugin_old:=false}" \
+		-F "variables[v2ray_plugin]=${v2ray_plugin:=false}" \
+		-F "variables[qrencode_old]=${qrencode_old:=false}" \
+		-F "variables[qrencode]=${qrencode:=false}" \
+		-F "variables[simple_obfs_old]=${simple_obfs_old:=false}" \
+		-F "variables[simple_obfs]=${simple_obfs:=false}" \
+		-F "variables[shadowsocksr_libev_old]=${shadowsocksr_libev_old:=false}" \
+		-F "variables[shadowsocksr_libev]=${shadowsocksr_libev:=false}" \
+		-F "variables[php_old]=${php_old:=false}" \
+		-F "variables[php]=${php:=false}" \
+		-F "variables[php_info]=${php_info}" \
+		-F "variables[nginx_quic_old]=${nginx_quic_old:=false}" \
+		-F "variables[nginx_quic]=${nginx_quic:=false}" \
+		-F "variables[nginx_quic_info]=${nginx_quic_info}" \
+		-F "variables[shadowsocks_rust_old]=${shadowsocks_rust_old:=false}" \
+		-F "variables[shadowsocks_rust]=${shadowsocks_rust:=false}" \
+		https://gitlab.com/api/v4/projects/${CI_PROJECT_ID:?}/trigger/pipeline
 fi

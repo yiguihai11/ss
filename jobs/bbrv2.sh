@@ -2,34 +2,34 @@
 set -e
 apt-get -qq update
 apt-get --yes install --no-install-recommends \
-build-essential \
-libncurses5-dev \
-gcc \
-libssl-dev \
-grub2 \
-bc \
-bison \
-flex \
-git \
-libelf-dev \
-libxtables-dev \
-ca-certificates \
-rsync \
-apt-utils \
-grsync \
-libtool \
-libev-dev \
-cmake \
-autoconf \
-automake \
-m4 \
-binutils \
-pkg-config \
-wget \
-libpcre3 \
-libpcre3-dev \
-cpio \
-kmod
+	build-essential \
+	libncurses5-dev \
+	gcc \
+	libssl-dev \
+	grub2 \
+	bc \
+	bison \
+	flex \
+	git \
+	libelf-dev \
+	libxtables-dev \
+	ca-certificates \
+	rsync \
+	apt-utils \
+	grsync \
+	libtool \
+	libev-dev \
+	cmake \
+	autoconf \
+	automake \
+	m4 \
+	binutils \
+	pkg-config \
+	wget \
+	libpcre3 \
+	libpcre3-dev \
+	cpio \
+	kmod
 git clone -b v2alpha --depth 1 https://github.com/google/bbr.git build/google-bbr
 if [ -s backups/.config ]; then
 	cp -vf backups/.config build/google-bbr/.config

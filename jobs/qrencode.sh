@@ -3,19 +3,19 @@ set -e
 
 apt-get -qq update
 apt-get --yes install --no-install-recommends \
-git \
-ca-certificates \
-autoconf \
-libtool \
-libev-dev \
-cmake \
-autoconf \
-automake \
-build-essential \
-gcc \
-m4 \
-binutils \
-pkg-config
+	git \
+	ca-certificates \
+	autoconf \
+	libtool \
+	libev-dev \
+	cmake \
+	autoconf \
+	automake \
+	build-essential \
+	gcc \
+	m4 \
+	binutils \
+	pkg-config
 git clone --depth 1 https://github.com/fukuchi/libqrencode /tmp/libqrencode
 cd /tmp/libqrencode
 ./autogen.sh

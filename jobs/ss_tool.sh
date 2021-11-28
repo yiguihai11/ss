@@ -8,4 +8,3 @@ sed -i "s/${ss_tool_old:?}/${ss_tool:?}/g" version/version
 git add usr/bin/ss-tool version/version
 git commit -m "更新ss-tool"
 git push -o ci.skip origin HEAD:${CI_COMMIT_REF_NAME}
-
