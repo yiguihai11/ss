@@ -92,7 +92,7 @@ php:
     - bash jobs/php.sh
   artifacts:
     paths:
-      - /etc/ssmanager/
+      - php/
   retry: 2
 
 shadowsocks-rust:
