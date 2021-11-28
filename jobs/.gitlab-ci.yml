@@ -1,0 +1,148 @@
+image: debian
+
+检查更新:
+  only:
+    - triggers
+    - schedules
+  stage: build
+  variables:
+    CI_DEBUG_TRACE: "false"
+  #before_script:
+    #- echo 1
+  script:
+    - bash jobs/check_ver.sh
+  after_script:
+    - export
+  retry: 2
+
+ss-main:
+  image: golang:latest
+  rules:
+    - if: $ss_main != 'false' && $ss_main_old
+  stage: build
+  script:
+    - bash jobs/ss_main.sh
+  retry: 2
+
+ss-tool:
+  rules:
+    - if: $ss_tool != 'false' && $ss_tool_old
+  stage: build
+  script:
+    - bash jobs/ss_tool.sh
+  retry: 2
+
+ipt2socks:
+  rules:
+    - if: $ipt2socks != 'false' && $ipt2socks_old
+  stage: build
+  script:
+    - bash jobs/ipt2socks.sh
+  retry: 2
+
+kcptun:
+  image: golang:latest
+  rules:
+    - if: $kcptun != 'false' && $kcptun_old
+  stage: build
+  script:
+      - bash jobs/kcptun.sh
+  retry: 2
+
+v2ray-plugin:
+  image: golang:latest
+  rules:
+    - if: $v2ray_plugin != 'false' && $v2ray_plugin_old
+  stage: build
+  script:
+    - bash jobs/v2ray_plugin.sh
+  retry: 2
+
+libqrencode:
+  rules:
+    - if: $qrencode != 'false' && $qrencode_old
+  stage: build
+  script:
+    - bash jobs/qrencode.sh
+  retry: 2
+
+simple-obfs:
+  rules:
+    - if: $simple_obfs != 'false' && $simple_obfs_old
+  stage: build
+  script:
+    - bash jobs/simple_obfs.sh
+  retry: 2
+
+shadowsocksr-libev:
+  image: debian:10.11
+  rules:
+    - if: $shadowsocksr_libev != 'false' && $shadowsocksr_libev_old
+  stage: build
+  script:
+    - bash jobs/shadowsocksr_libev.sh
+  retry: 2
+
+php:
+  rules:
+    - if: $php != 'false' && $php_old
+  stage: build
+  script:
+    - bash jobs/openssl.sh
+    - bash jobs/php.sh
+  artifacts:
+    paths:
+      - /etc/ssmanager/
+  retry: 2
+
+shadowsocks-rust:
+  rules:
+    - if: $shadowsocks_rust != 'false' && $shadowsocks_rust_old
+  image: rust:latest
+  stage: build
+  script: bash jobs/shadowsocks_rust.sh
+  retry: 2
+
+BBRv2内核:
+  #docker中编译内核的条件不满足，或者我没有找到方法先搁置。
+  stage: build
+  when: manual
+  artifacts:
+    paths:
+      - build/
+    exclude:
+      - build/google-bbr/**/*
+  script:
+    - bash jobs/bbrv2.sh
+
+测试运行:
+  rules:
+    - if: $update == 'true'
+  stage: test
+  script:
+    - bash jobs/test.sh
+
+后续整理工作:
+  rules:
+    - if: $update == 'true'
+  stage: deploy
+  script:
+    - bash jobs/deploy.sh
+
+清理编译记录:
+  only:
+    - triggers
+    - schedules
+  stage: deploy
+  when: manual
+  script:
+    - bash jobs/clean_ci_log.sh
+
+重置提交记录:
+  only:
+    - triggers
+    - schedules
+  stage: deploy
+  when: manual
+  script:
+    - bash jobs/reset.sh
