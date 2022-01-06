@@ -1,0 +1,11 @@
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: "openjdk:11-jdk"
+    steps:
+      - checkout
+      - run: bash jobs/shadowsocks_android.sh
+      - store_artifacts:
+          path: /tmp/shadowsocks-android/mobile/build/outputs/apk
+          destination: apk/mobile
