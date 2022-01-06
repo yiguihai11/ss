@@ -2926,12 +2926,14 @@ EOF
 					while true; do
 						if ! warp-cli network 1>/dev/null; then
 							systemctl restart warp-svc
-						fi
-						if warp-cli account | grep -q 'Error\|Missing registration.'; then
-							warp-cli --accept-tos register
-							#yes | warp-cli register
+							sleep 1
 						else
-							break
+							if warp-cli account | grep -q 'Error\|Missing registration.'; then
+								warp-cli --accept-tos register
+								#yes | warp-cli register
+							else
+								break
+							fi
 						fi
 					done
 					#https://developers.cloudflare.com/warp-client/setting-up/linux
