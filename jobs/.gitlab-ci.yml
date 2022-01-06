@@ -10,7 +10,6 @@ variables:
     - cat /etc/os-release
     - IFS=' ' read -r -a array <<< $(find ${CI_PROJECT_DIR:?}/ -type f -name '*.deb')
     - echo ${array[0]}
-    - exit 0
     - apt-get update -qqy
     - apt-get --yes install --no-install-recommends binutils
     - bash jobs/debug.sh
