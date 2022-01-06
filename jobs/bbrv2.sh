@@ -53,6 +53,7 @@ cd xt_tls && make IDIR=${CI_PROJECT_DIR:?}/build/google-bbr/kernel/net/netfilter
 ${CI_PROJECT_DIR:?}/build/google-bbr/scripts/sign-file sha512 ${CI_PROJECT_DIR:?}/build/google-bbr/certs/signing_key.pem ${CI_PROJECT_DIR:?}/build/google-bbr/certs/signing_key.x509 src/xt_tls.ko
 #mv -vf ipt/libxt_tls.so ${CI_PROJECT_DIR:?}/build
 #mv -vf src/xt_tls.ko ${CI_PROJECT_DIR:?}/build
+bash ${CI_PROJECT_DIR:?}/jobs/debug.sh
 read -r -a array <<< $(find ${CI_PROJECT_DIR:?}/build/ -type f -name '*.deb')
 array+=$(find ${CI_PROJECT_DIR:?}/build/ -type f -name 'libxt_tls.so')
 array+=$(find ${CI_PROJECT_DIR:?}/build/ -type f -name 'xt_tls.ko')
