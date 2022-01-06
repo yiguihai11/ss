@@ -2927,6 +2927,10 @@ EOF
 						if ! warp-cli network 1>/dev/null; then
 							systemctl restart warp-svc
 							sleep 1
+							if ! warp-cli network 1>/dev/null; then
+								Prompt "启动warp-cli失败！"
+								Exit
+							fi
 						else
 							if warp-cli account | grep -q 'Error\|Missing registration.'; then
 								warp-cli --accept-tos register
@@ -2945,7 +2949,7 @@ EOF
 					while true; do
 						((cs--))
 						if [ ${cs:-0} -eq 0 ]; then
-							Prompt "启动warp-cli超时!"
+							Prompt "warp-cli网络测试超时!"
 							Exit
 						else
 							if curl --connect-timeout 1 --max-time 2 -x socks5://127.0.0.1:1080 'https://www.cloudflare.com/cdn-cgi/trace/' 2>/dev/null; then
