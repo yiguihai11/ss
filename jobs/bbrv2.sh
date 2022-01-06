@@ -51,13 +51,11 @@ git clone --depth 1 https://github.com/Lochnair/xt_tls.git
 patch -p0 <${CI_PROJECT_DIR:?}/patch/xt_tls.patch
 cd xt_tls && make IDIR=${CI_PROJECT_DIR:?}/build/google-bbr/kernel/net/netfilter/ KDIR=${CI_PROJECT_DIR:?}/build/google-bbr
 ${CI_PROJECT_DIR:?}/build/google-bbr/scripts/sign-file sha512 ${CI_PROJECT_DIR:?}/build/google-bbr/certs/signing_key.pem ${CI_PROJECT_DIR:?}/build/google-bbr/certs/signing_key.x509 src/xt_tls.ko
-mv -vf ipt/libxt_tls.so ${CI_PROJECT_DIR:?}/build
-mv -vf src/xt_tls.ko ${CI_PROJECT_DIR:?}/build
-:<<EOF
-IFS=$'\n' read -r -a array <<< $(find ${CI_PROJECT_DIR:?}/build/ -type f -name '*.deb')
+#mv -vf ipt/libxt_tls.so ${CI_PROJECT_DIR:?}/build
+#mv -vf src/xt_tls.ko ${CI_PROJECT_DIR:?}/build
+read -r -a array <<< $(find ${CI_PROJECT_DIR:?}/build/ -type f -name '*.deb')
 array+=$(find ${CI_PROJECT_DIR:?}/build/ -type f -name 'libxt_tls.so')
 array+=$(find ${CI_PROJECT_DIR:?}/build/ -type f -name 'xt_tls.ko')
 for i in ${array[@]}; do
   cp -f $i ${CI_PROJECT_DIR:?}/build
 done
-EOF
