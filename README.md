@@ -16,3 +16,18 @@ chmod +x /usr/local/bin/ss-main
 ```Shell
 ss-main
 ```
+<details open>
+  <summary>更新记录</summary>
+  <table>
+    <caption><i><b>2022年01月06日 02:30:56</b></i></caption>
+    <thead>
+      <tr>
+        <th>项目</th>
+        <th>更新详情</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>shadowsocks-rust</td><td><a href=https://github.com/shadowsocks/shadowsocks-rust/commit/d31b6633ee588f26b47883e6140c6f9bed8090a8>clap::ErrorKind only used when multi-threaded feature is enabled</a></td></tr>
+    </tbody>
+  </table>
+</details>

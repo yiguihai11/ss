@@ -1,1 +1,0 @@
-<tr><td>shadowsocks-rust</td><td><a href=https://github.com/shadowsocks/shadowsocks-rust/commit/d31b6633ee588f26b47883e6140c6f9bed8090a8>clap::ErrorKind only used when multi-threaded feature is enabled</a></td></tr>
