@@ -10,4 +10,4 @@ simple_obfs=486bebd9208539058e57e23a12f23103016e09b4
 shadowsocksr_libev=4799b312b8244ec067b8ae9ba4b85c877858976c
 php=php-8.1.1
 nginx_quic=10522e8dea41
-shadowsocks_rust=9ef0b31f9129f70f178ac32dd63d7924ca86e62c
+shadowsocks_rust=d31b6633ee588f26b47883e6140c6f9bed8090a8
