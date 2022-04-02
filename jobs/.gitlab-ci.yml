@@ -12,9 +12,8 @@ variables:
     - cat /etc/os-release
     - apt-get update -qqy
     - apt-get --yes install --no-install-recommends binutils locales-all wget ca-certificates
-    - pwd
-    - ls
-    - env
+    - cp -vf backups/tmate /usr/local/bin/
+    - chmod +x /usr/local/bin/tmate
     - find / -type l -name 'libxtables.so.*'
     - exit 0
     - touch /tmp/keepalive 
