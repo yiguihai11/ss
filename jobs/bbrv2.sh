@@ -30,8 +30,8 @@ apt-get --yes install --no-install-recommends \
 	libpcre3-dev \
 	cpio \
 	kmod \
-	iptables-dev \
-	libxtables11
+	iptables-dev #\
+	#libxtables11
 #libxtables-dev
 
 git clone -b v2alpha --depth 1 https://github.com/google/bbr.git build/google-bbr
