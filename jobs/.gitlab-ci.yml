@@ -11,9 +11,9 @@ variables:
   script:
     - cat /etc/os-release
     - apt-get update -qqy
-    - apt-get --yes install --no-install-recommends binutils locales-all wget git-core build-essential pkg-config libtool libevent-dev libncurses-dev zlib1g-dev automake libssh-dev libmsgpack-dev
-    - git clone https://github.com/tmate-io/tmate.git
-    - cd tmate
+    - apt-get --yes install --no-install-recommends binutils locales-all wget git-core build-essential pkg-config libtool libevent-dev libncurses-dev zlib1g-dev automake libssh-dev libmsgpack-dev ca-certificates
+    - git clone https://github.com/tmate-io/tmate.git /tmp/tmate
+    - cd /tmp/tmate
     - ./autogen.sh
     - ./configure
     - make
