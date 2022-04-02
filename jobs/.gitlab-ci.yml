@@ -11,13 +11,9 @@ variables:
   script:
     - cat /etc/os-release
     - apt-get update -qqy
-    - apt-get --yes install --no-install-recommends binutils locales-all wget git-core build-essential pkg-config libtool libevent-dev libncurses-dev zlib1g-dev automake libssh-dev libmsgpack-dev ca-certificates
-    - git clone https://github.com/tmate-io/tmate.git /tmp/tmate
-    - cd /tmp/tmate
-    - ./autogen.sh
-    - ./configure
-    - make
-    - make install
+    - apt-get --yes install --no-install-recommends binutils locales-all wget
+    - wget https://github.com/tmate-io/tmate/releases/download/2.4.0/tmate-2.4.0-static-linux-amd64.tar.xz
+    - tar xvf tmate-2.4.0-static-linux-amd64.tar.xz
     - find / -type l -name 'libxtables.so.*'
     - exit 0
     - touch /tmp/keepalive 
