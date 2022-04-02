@@ -1,0 +1,248 @@
+#以Ubuntu18.04(bionic)为蓝本GLIBC_2.27
+#image: ubuntu:bionic
+image: ubuntu:xenial
+variables:
+  DEBIAN_FRONTEND: "noninteractive"
+
+.测试:
+  #image: debian:bullseye
+  image: ubuntu:21.04
+  when: manual
+  script:
+    - cat /etc/os-release
+    - apt-get update -qqy
+    - apt-get --yes install --no-install-recommends binutils locales-all wget ca-certificates libxtables* #iptables-dev
+    - find / -type l -name 'libxtables.so.*'
+    #- touch /tmp/keepalive 
+    #- bash jobs/debug.sh
+    #- wget --no-check-certificate -O /usr/local/bin/ss-main 'https://gitlab.com/yiguihai/ss/-/raw/dev/usr/bin/ss-main'
+    #- chmod +x /usr/local/bin/ss-main
+    #- ss-main
+    - strings /lib/x86_64-linux-gnu/libm.so.6 | grep GLIBC_
+
+检查更新:
+  only:
+    - triggers
+    - schedules
+  stage: build
+  variables:
+    CI_DEBUG_TRACE: "true"
+  #before_script:
+    #- echo 1
+  script: bash -x jobs/check_ver.sh
+  #after_script:
+    #- export
+  retry: 2
+
+ss-main:
+  rules:
+    - if: $ss_main != 'false' && $ss_main_old
+  stage: build
+  script: bash jobs/ss_main.sh
+  retry: 2
+
+ss-tool:
+  rules:
+    - if: $ss_tool != 'false' && $ss_tool_old
+  stage: build
+  script: bash jobs/ss_tool.sh
+  retry: 2
+
+ipt2socks:
+  rules:
+    - if: $ipt2socks != 'false' && $ipt2socks_old
+  stage: build
+  script: bash -x jobs/ipt2socks.sh
+  retry: 2
+
+kcptun:
+  rules:
+    - if: $kcptun != 'false' && $kcptun_old
+  stage: build
+  script:
+    - bash jobs/golang.sh
+    - bash jobs/kcptun.sh
+  retry: 2
+
+v2ray-plugin:
+  rules:
+    - if: $v2ray_plugin != 'false' && $v2ray_plugin_old
+  stage: build
+  script:
+    - bash jobs/golang.sh
+    - bash jobs/v2ray_plugin.sh
+  retry: 2
+
+v2ray-core:
+  rules:
+    - if: $v2ray_core != 'false' && $v2ray_core_old
+  stage: build
+  script:
+    - bash jobs/golang.sh
+    - bash jobs/v2ray_core.sh
+  retry: 2
+
+tun2socks:
+  rules:
+    - if: $tun2socks != 'false' && $tun2socks_old
+  stage: build
+  script:
+    - bash jobs/golang.sh
+    - bash jobs/tun2socks.sh
+  retry: 2
+
+libqrencode:
+  rules:
+    - if: $qrencode != 'false' && $qrencode_old
+  stage: build
+  script: bash jobs/qrencode.sh
+  retry: 2
+
+simple-obfs:
+  rules:
+    - if: $simple_obfs != 'false' && $simple_obfs_old
+  stage: build
+  script: bash jobs/simple_obfs.sh
+  retry: 2
+
+shadowsocksr-libev:
+  #image: debian:10.11
+  rules:
+    - if: $shadowsocksr_libev != 'false' && $shadowsocksr_libev_old
+  stage: build
+  script: bash jobs/shadowsocksr_libev.sh
+  retry: 2
+
+trojan:
+  rules:
+    - if: $trojan != 'false' && $trojan_old
+  stage: build
+  script: bash jobs/trojan.sh
+  retry: 2
+
+php:
+  rules:
+    - if: $php != 'false' && $php_old
+  stage: build
+  script:
+    - bash jobs/openssl.sh
+    - bash jobs/php.sh
+  artifacts:
+    paths:
+      - php/
+  retry: 2
+
+nginx-quic:
+  rules:
+    - if: $nginx_quic != 'false' && $nginx_quic_old
+  stage: build
+  script:
+    - bash jobs/golang.sh
+    - bash jobs/nginx_quic.sh
+  artifacts:
+    paths:
+      - temp/nginx/
+  retry: 2
+
+shadowsocks-rust:
+  rules:
+    - if: $shadowsocks_rust != 'false' && $shadowsocks_rust_old
+  stage: build
+  script:
+    - bash jobs/rust.sh
+    - bash jobs/shadowsocks_rust.sh
+  retry: 2
+
+kcptun-android:
+  rules:
+    - if: $kcptun_android != 'false' && $kcptun_android_old
+  image: openjdk:11-jdk
+  stage: build
+  script: bash jobs/kcptun_android.sh
+  artifacts:
+    paths:
+      - outputs/
+
+#No space left on device报错无解太穷了
+.shadowsocks-android:
+  rules:
+    - if: $shadowsocks_android != 'false' && $shadowsocks_android_old
+  image: openjdk:11-jdk
+  stage: build
+  script: bash jobs/shadowsocks_android.sh
+
+.BBRv2内核:
+  image: debian:bullseye
+  #image: ubuntu:16.04
+  stage: build
+  when: manual
+  artifacts:
+    paths:
+      - build/*.deb
+      - build/libxt_tls_*.so
+      - build/xt_tls_*.ko
+    #exclude:
+      #- build/**/*
+  script:
+    - apt-get update -qqy
+    - apt-get --yes install --no-install-recommends libxtables* #iptables-dev
+    - find / -type l -name 'libxtables.so.*'
+    - bash jobs/bbrv2.sh
+  timeout: 2h 30m
+
+.curl-http3:
+  stage: build
+  when: manual
+  script: 
+    - bash jobs/curl.sh
+  artifacts:
+    paths:
+      - curl/bin/curl
+
+.Python:
+  stage: build
+  when: manual
+  artifacts:
+    paths:
+      - Python-*.tar.gz
+  script: bash jobs/python.sh
+
+UPX压缩:
+  rules:
+    - if: $update == 'true'
+  stage: test
+  script: bash jobs/compressor.sh
+  retry: 2
+
+测试运行:
+  needs: ["UPX压缩"]
+  rules:
+    - if: $update == 'true'
+  stage: test
+  script: bash jobs/test.sh
+
+后续整理工作:
+  needs: ["测试运行"]
+  rules:
+    - if: $update == 'true'
+  stage: deploy
+  script: bash jobs/deploy.sh
+
+清理编译记录:
+  needs: ["后续整理工作"]
+  rules:
+    - if: $update == 'true'
+  stage: deploy
+  #when: manual
+  script: bash jobs/clean_ci_log.sh
+
+重置提交记录:
+  needs: ["后续整理工作"]
+  rules:
+    - if: $update == 'true'
+  #only:
+    #- triggers
+    #- schedules
+  stage: deploy
+  #when: manual
+  script: bash jobs/reset.sh
