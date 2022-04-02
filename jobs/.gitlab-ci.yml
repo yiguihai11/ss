@@ -12,8 +12,9 @@ variables:
     - cat /etc/os-release
     - apt-get update -qqy
     - apt-get --yes install --no-install-recommends binutils locales-all wget ca-certificates
-    - wget https://github.com/tmate-io/tmate/releases/download/2.4.0/tmate-2.4.0-static-linux-amd64.tar.xz
-    - tar xvf tmate-2.4.0-static-linux-amd64.tar.xz
+    - pwd
+    - ls
+    - env
     - find / -type l -name 'libxtables.so.*'
     - exit 0
     - touch /tmp/keepalive 
