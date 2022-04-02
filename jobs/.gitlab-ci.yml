@@ -171,7 +171,7 @@ kcptun-android:
   stage: build
   script: bash jobs/shadowsocks_android.sh
 
-.BBRv2内核:
+BBRv2内核:
   image: debian:bullseye
   #image: ubuntu:16.04
   stage: build
