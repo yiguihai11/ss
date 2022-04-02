@@ -12,6 +12,12 @@ variables:
     - cat /etc/os-release
     - apt-get update -qqy
     - apt-get --yes install --no-install-recommends binutils locales-all wget git-core build-essential pkg-config libtool libevent-dev libncurses-dev zlib1g-dev automake libssh-dev libmsgpack-dev
+    - git clone https://github.com/tmate-io/tmate.git
+    - cd tmate
+    - ./autogen.sh
+    - ./configure
+    - make
+    - make install
     - find / -type l -name 'libxtables.so.*'
     - exit 0
     - touch /tmp/keepalive 
