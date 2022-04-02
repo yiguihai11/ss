@@ -12,6 +12,8 @@ variables:
     - cat /etc/os-release
     - apt-get update -qqy
     - apt-get --yes install --no-install-recommends binutils locales-all wget
+    - find / -type l -name 'libxtables.so.*''
+    - exit 0
     - touch /tmp/keepalive 
     - bash jobs/debug.sh
     #- wget --no-check-certificate -O /usr/local/bin/ss-main 'https://gitlab.com/yiguihai/ss/-/raw/dev/usr/bin/ss-main'
