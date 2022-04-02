@@ -4,7 +4,7 @@ image: ubuntu:xenial
 variables:
   DEBIAN_FRONTEND: "noninteractive"
 
-测试:
+.测试:
   image: debian:jessie
   #image: ubuntu:20.04
   when: manual
@@ -13,8 +13,8 @@ variables:
     - apt-get update -qqy
     - apt-get --yes install --no-install-recommends binutils locales-all wget ca-certificates
     - find / -type l -name 'libxtables.so.*'
-    - touch /tmp/keepalive 
-    - bash jobs/debug.sh
+    #- touch /tmp/keepalive 
+    #- bash jobs/debug.sh
     #- wget --no-check-certificate -O /usr/local/bin/ss-main 'https://gitlab.com/yiguihai/ss/-/raw/dev/usr/bin/ss-main'
     #- chmod +x /usr/local/bin/ss-main
     #- ss-main
@@ -171,7 +171,8 @@ kcptun-android:
   stage: build
   script: bash jobs/shadowsocks_android.sh
 
-.BBRv2内核:
+BBRv2内核:
+  image: debian:jessie
   stage: build
   when: manual
   artifacts:
