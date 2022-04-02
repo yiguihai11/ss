@@ -5,8 +5,8 @@ variables:
   DEBIAN_FRONTEND: "noninteractive"
 
 测试:
-  #image: debian:stretch
-  image: ubuntu:20.04
+  image: debian:jessie
+  #image: ubuntu:20.04
   when: manual
   script:
     - cat /etc/os-release
