@@ -1,0 +1,13 @@
+--- bssl_shim.cc.bak	2022-01-02 18:37:18.789605026 +0800
++++ bssl_shim.cc	2022-01-02 18:39:45.159604970 +0800
+@@ -408,8 +408,8 @@
+ 
+   if (config->expect_version != 0 &&
+       SSL_version(ssl) != int{config->expect_version}) {
+-    fprintf(stderr, "want version %04x, got %04x\n", config->expect_version,
+-            static_cast<uint16_t>(SSL_version(ssl)));
++    fprintf(stderr, "want version %04x, got %04x\n", (unsigned int)config->expect_version,
++            (unsigned int)static_cast<uint16_t>(SSL_version(ssl)));
+     return false;
+   }
+ 
