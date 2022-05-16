@@ -3321,7 +3321,9 @@ Close_traffic_forward() {
 		fi
 		unset -v kpid
 	done
-	warp-cli --accept-tos disconnect 1>/dev/null
+	if command_exists warp-cli; then
+	  warp-cli --accept-tos disconnect 1>/dev/null
+	fi
 }
 
 Start_tun2socks() {
