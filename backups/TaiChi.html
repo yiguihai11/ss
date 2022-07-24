@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>手把手教你用 css 画太极</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    body {
+      background: rgb(152, 152, 152);
+    }
+
+    .yinyang {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      margin: 100px auto;
+      border-radius: 50%;
+      background: linear-gradient(to bottom, #fff 0%, #fff 50%, #000 50%, #000 100%);
+      animation: spin 3s linear infinite;
+    }
+
+    .yinyang::before,
+    .yinyang::after {
+      box-sizing: border-box;
+      position: absolute;
+      top: 50px;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      content: '';
+    }
+
+    .yinyang::before {
+      left: 0;
+      border: 40px solid #000;
+      background: #fff;
+    }
+
+    .yinyang::after {
+      right: 0;
+      border: 40px solid #fff;
+      background: #000;
+    }
+    /* css3 动画 */
+    @keyframes spin {
+      0% {
+          transform: rotate(0deg);
+      }
+      100% {
+          transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="yinyang"></div>
+</body>
+
+</html>

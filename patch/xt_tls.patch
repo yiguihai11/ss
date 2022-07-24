@@ -1,0 +1,50 @@
+diff -ruN xt_tls/ipt/Makefile xt_tls2/ipt/Makefile
+--- xt_tls/ipt/Makefile	2022-04-02 18:51:49.872190901 +0800
++++ xt_tls2/ipt/Makefile	2022-04-02 19:01:40.332190676 +0800
+@@ -4,7 +4,7 @@
+ 
+ all: libxt_tls.so
+ lib%.so: lib%.o
+-	$(CC) -shared -o $@ $^;
++	$(CC) -shared -s -o $@ $^;
+ lib%.o: %lib%.c
+ 	$(CC) ${CFLAGS} -D_INIT=lib$*_init -c -o $@ $<;
+ clean:
+diff -ruN xt_tls/src/Makefile xt_tls2/src/Makefile
+--- xt_tls/src/Makefile	2022-04-02 18:51:49.872190901 +0800
++++ xt_tls2/src/Makefile	2022-04-02 19:01:40.362190676 +0800
+@@ -1,8 +1,9 @@
++CONFIG_MODULE_SIG=n
+ obj-m += xt_tls.o
+ xt_tls-objs := xt_tls_main.o hostset.o 
+ KERNEL_VERSION := $(shell uname -r)
+-IDIR := /lib/modules/$(KERNEL_VERSION)/kernel/net/netfilter/
+-KDIR := /lib/modules/$(KERNEL_VERSION)/build
++IDIR ?= /lib/modules/$(KERNEL_VERSION)/kernel/net/netfilter/
++KDIR ?= /lib/modules/$(KERNEL_VERSION)/build
+ DESTDIR ?= /
+ PWD := $(shell pwd)
+ VERSION := $(shell git rev-parse HEAD 2>/dev/null)
+@@ -14,6 +15,9 @@
+ 
+ install:
+ 	    $(MAKE) -C $(KDIR) M=$(PWD) INSTALL_MOD_PATH=$(DESTDIR) modules_install
++	    @echo ""
++	    @echo "SUCCESS (if you got 'SSL errors' above, you can safely ignore them)"
++	    @echo ""
+ 	    depmod -a
+ 
+ clean:
+diff -ruN xt_tls/src/xt_tls_main.c xt_tls2/src/xt_tls_main.c
+--- xt_tls/src/xt_tls_main.c	2022-04-02 18:51:49.872190901 +0800
++++ xt_tls2/src/xt_tls_main.c	2022-04-02 19:01:40.352190676 +0800
+@@ -266,8 +266,8 @@
+ 		break;
+ 	}//switch
+ 
+-#ifdef XT_TLS_DEBUG
+ 	printk("[xt_tls] Parsed domain: %s\n", parsed_host);
++#ifdef XT_TLS_DEBUG
+ 	printk("[xt_tls] Domain matches: %s, invert: %s\n", match ? "true" : "false", invert ? "true" : "false");
+ #endif
+ 	if (invert)
