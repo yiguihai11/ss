@@ -1,0 +1,11 @@
+--- /storage/emulated/0/Download/build.gradle.txt.bak	2022-04-24 14:58:50.920058868 +0800
++++ /storage/emulated/0/Download/build.gradle.txt	2022-04-24 15:00:44.960058825 +0800
+@@ -41,6 +41,8 @@
+     featureSpec.noDefaultBut(arrayOf(
+             "stream-cipher",
+             "aead-cipher-extra",
++            "aead-cipher-2022",
++            "aead-cipher-2022-extra",
+             "logging",
+             "local-flow-stat",
+             "local-dns"))
