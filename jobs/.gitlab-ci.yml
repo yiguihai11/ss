@@ -19,7 +19,8 @@ variables:
     - strings /lib/x86_64-linux-gnu/libm.so.6 | grep GLIBC_
     - strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBCXX
     - touch /tmp/keepalive
-    - bash jobs/debug.sh
+    #- bash jobs/debug.sh
+    - bash jobs/ip-scanner.sh
 
 检查更新:
   only:
