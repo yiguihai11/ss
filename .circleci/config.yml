@@ -1,0 +1,13 @@
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: "openjdk:11.0.13-jdk-buster"
+    steps:
+      - run: apt-get -qqy update
+      - run: git clone --depth 1 https://gitlab.com/yiguihai/ss .
+      - run: pwd 
+      - run: env
+      - run: bash jobs/shadowsocks_android.sh
+      - store_artifacts:
+          path: /tmp/shadowsocks-android/mobile/build/outputs/apk
