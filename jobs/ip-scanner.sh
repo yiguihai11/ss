@@ -2,8 +2,8 @@
 export PATH=$PATH:${CI_PROJECT_DIR}/usr/bin
 chmod +x ${CI_PROJECT_DIR}/usr/bin/*
 kill $(cat cloudflare/test.pid) 2>/dev/null
-rm -rf cloudflare ip.txt ss-local.json
-touch ip.txt ss-local.json
+rm -rf cloudflare ip.txt ip2.txt ss-local.json
+touch ip.txt ip2.txt ss-local.json
 apt-get -qqy update
 apt-get --yes install --no-install-recommends \
 	git \
@@ -24,6 +24,7 @@ for i in *.txt; do
 		if [ "${ret:-0}" -eq 200 ]; then
 			echo $i $line ✔
 			echo "$i $line" >>${CI_PROJECT_DIR}/ip.txt
+            echo "$line"|grep -oP '([0-9]+\.){3}[0-9]+?' >>${CI_PROJECT_DIR}/ip2.txt
 			cat >>${CI_PROJECT_DIR}/ss-local.json <<EOF
 		{
             "disabled": false,
