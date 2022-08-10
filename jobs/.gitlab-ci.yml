@@ -19,8 +19,7 @@ variables:
     - strings /lib/x86_64-linux-gnu/libm.so.6 | grep GLIBC_
     - strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBCXX
     - touch /tmp/keepalive
-    #- bash jobs/debug.sh
-    - bash jobs/ip-scanner.sh
+    - bash jobs/debug.sh
 
 检查更新:
   only:
@@ -217,6 +216,15 @@ kcptun-android:
       #- build/**/*
   script: bash jobs/bbrv2.sh
   timeout: 2h 30m
+
+IP扫描测试:
+  stage: build
+  when: manual
+  artifacts:
+    paths:
+      - ip.txt
+      - ss-local.json
+  script: bash jobs/ip-scanner.sh
 
 .curl-http3:
   stage: build
