@@ -223,6 +223,7 @@ IP扫描测试:
   artifacts:
     paths:
       - ip.txt
+      - ip2.txt
       - ss-local.json
   script: bash jobs/ip-scanner.sh
 
