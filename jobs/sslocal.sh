@@ -87,7 +87,6 @@ make CC=${PLATFORM}${API}-clang CXX=${PLATFORM}${API}-clang++ LD=$TOOLCHAIN/bin/
 $PLATFORM-strip src/smartdns
 $PLATFORM-readelf -d src/smartdns
 
-: <<'EOF'
 ls -l $TOOLCHAIN/bin
 source $HOME/.cargo/env
 export PATH=$PATH:$HOME/.cargo/bin
@@ -121,7 +120,7 @@ else
 fi
 file target/$PLATFORM/release/sslocal
 $PLATFORM-readelf -d target/$PLATFORM/release/sslocal
-EOF
+
 cat >${CI_PROJECT_DIR:?}/acl/bypass-china.acl <<EOF
 [proxy_all]
 
