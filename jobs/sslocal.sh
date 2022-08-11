@@ -1,6 +1,11 @@
 #!/bin/bash
 set -e
 source jobs/golang.sh
+if [[ "$PLATFORM" == "arm-"* ]]; then
+   go_arch='arm'
+elif [[ "$PLATFORM" == "aarch64-"* ]];then
+   go_arch='arm64'
+fi
 source jobs/ndk.sh
 ln -s ${NDK_PREFIX}/lib/${PLATFORM}/${API}/libc.a ${NDK_PREFIX}/lib/${PLATFORM}/${API}/libpthread.a
 ln -s ${NDK_PREFIX}/lib/${PLATFORM}/${API}/libc.so ${NDK_PREFIX}/lib/${PLATFORM}/${API}/libpthread.so
@@ -24,27 +29,27 @@ zip -r - assets/build >assets.zip
 # 获得当前版本号、Commit
 export COMMIT_SHA=$(git rev-parse --short HEAD)
 export VERSION=$(git describe --tags)
-env AR=$TOOLCHAIN/bin/llvm-ar CC=${PLATFORM}${API}-clang CXX=${PLATFORM}${API}-clang++ LD=$TOOLCHAIN/bin/ld GO111MODULE=on CGO_ENABLED=1 GOOS=android GOARCH=arm64 go build -a -o cloudreve -ldflags "-s -w -X 'github.com/cloudreve/Cloudreve/v3/pkg/conf.BackendVersion=$VERSION' -X 'github.com/cloudreve/Cloudreve/v3/pkg/conf.LastCommit=$COMMIT_SHA'"
+env AR=$TOOLCHAIN/bin/llvm-ar CC=${PLATFORM}${API}-clang CXX=${PLATFORM}${API}-clang++ LD=$TOOLCHAIN/bin/ld GO111MODULE=on CGO_ENABLED=1 GOOS=android GOARCH=$go_arch go build -a -o cloudreve -ldflags "-s -w -X 'github.com/cloudreve/Cloudreve/v3/pkg/conf.BackendVersion=$VERSION' -X 'github.com/cloudreve/Cloudreve/v3/pkg/conf.LastCommit=$COMMIT_SHA'"
 ls
 cd ..
 
 git clone --depth 1 https://github.com/teddysun/v2ray-plugin.git
 cd v2ray-plugin
 go get -d ./...
-env AR=$TOOLCHAIN/bin/llvm-ar CC=${PLATFORM}${API}-clang CXX=${PLATFORM}${API}-clang++ LD=$TOOLCHAIN/bin/ld GO111MODULE=on CGO_ENABLED=1 GOOS=android GOARCH=arm64 go build -ldflags "-X main.VERSION=$(date -u +%Y%m%d) -s -w" -o v2ray-plugin
+env AR=$TOOLCHAIN/bin/llvm-ar CC=${PLATFORM}${API}-clang CXX=${PLATFORM}${API}-clang++ LD=$TOOLCHAIN/bin/ld GO111MODULE=on CGO_ENABLED=1 GOOS=android GOARCH=$go_arch go build -ldflags "-X main.VERSION=$(date -u +%Y%m%d) -s -w" -o v2ray-plugin
 file v2ray-plugin
 $PLATFORM-readelf -d v2ray-plugin
 cd ..
 
 git clone --depth 1 https://github.com/xtaci/kcptun.git
 cd kcptun/client
-env AR=$TOOLCHAIN/bin/llvm-ar CC=${PLATFORM}${API}-clang CXX=${PLATFORM}${API}-clang++ LD=$TOOLCHAIN/bin/ld GO111MODULE=on CGO_ENABLED=1 GOOS=android GOARCH=arm64 go build -mod=vendor -ldflags "-X main.VERSION=$(date -u +%Y%m%d) -s -w" -o kcptun-client
+env AR=$TOOLCHAIN/bin/llvm-ar CC=${PLATFORM}${API}-clang CXX=${PLATFORM}${API}-clang++ LD=$TOOLCHAIN/bin/ld GO111MODULE=on CGO_ENABLED=1 GOOS=android GOARCH=$go_arch go build -mod=vendor -ldflags "-X main.VERSION=$(date -u +%Y%m%d) -s -w" -o kcptun-client
 cd ${CI_PROJECT_DIR:?}
 
 git clone --depth 1 https://github.com/XIU2/CloudflareSpeedTest
 cd CloudflareSpeedTest
 go get -d ./...
-env AR=$TOOLCHAIN/bin/llvm-ar CC=${PLATFORM}${API}-clang CXX=${PLATFORM}${API}-clang++ LD=$TOOLCHAIN/bin/ld GO111MODULE=on CGO_ENABLED=1 GOOS=android GOARCH=arm64 go build -ldflags "-X main.VERSION=$(date -u +%Y%m%d) -s -w"
+env AR=$TOOLCHAIN/bin/llvm-ar CC=${PLATFORM}${API}-clang CXX=${PLATFORM}${API}-clang++ LD=$TOOLCHAIN/bin/ld GO111MODULE=on CGO_ENABLED=1 GOOS=android GOARCH=$go_arch go build -ldflags "-X main.VERSION=$(date -u +%Y%m%d) -s -w"
 cd ..
 
 
