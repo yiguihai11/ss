@@ -3,9 +3,14 @@ set -e
 source jobs/golang.sh
 if [[ "$PLATFORM" == "arm-"* ]]; then
    go_arch='arm'
+   host_cc="$TOOLCHAIN/bin/armv7a-linux-androideabi${API}-clang"
+   host_cxx="$TOOLCHAIN/bin/armv7a-linux-androideabi${API}-clang++"
 elif [[ "$PLATFORM" == "aarch64-"* ]];then
    go_arch='arm64'
+   host_cc="$TOOLCHAIN/bin/${PLATFORM}${API}-clang"
+   host_cxx="$TOOLCHAIN/bin/${PLATFORM}${API}-clang++"
 fi
+
 source jobs/ndk.sh
 ln -s ${NDK_PREFIX}/lib/${PLATFORM}/${API}/libc.a ${NDK_PREFIX}/lib/${PLATFORM}/${API}/libpthread.a
 ln -s ${NDK_PREFIX}/lib/${PLATFORM}/${API}/libc.so ${NDK_PREFIX}/lib/${PLATFORM}/${API}/libpthread.so
