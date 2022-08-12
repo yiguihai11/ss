@@ -8,10 +8,12 @@ bash jobs/rust.sh
 
 if [[ $PLATFORM == "arm-"* ]]; then
 	go_arch='arm'
+	arm_arch='armeabi'
 	host_cc="$TOOLCHAIN/bin/armv7a-linux-androideabi${API}-clang"
 	host_cxx="$TOOLCHAIN/bin/armv7a-linux-androideabi${API}-clang++"
 elif [[ $PLATFORM == "aarch64-"* ]]; then
 	go_arch='arm64'
+	arm_arch='arm64'
 	host_cc="$TOOLCHAIN/bin/${PLATFORM}${API}-clang"
 	host_cxx="$TOOLCHAIN/bin/${PLATFORM}${API}-clang++"
 fi
@@ -85,7 +87,7 @@ rm -f ${latest_version}
 mv ${latest_version/.tar.gz/} openssl
 cd openssl
 ./Configure LIST
-./Configure -llog android-arm64 --prefix=$NDK_PREFIX
+./Configure -llog android-${go_arch} --prefix=$NDK_PREFIX
 make -j2
 make install_sw
 cd ..
