@@ -87,14 +87,15 @@ rm -f ${latest_version}
 mv ${latest_version/.tar.gz/} openssl
 cd openssl
 ./Configure LIST
-./Configure android-${go_arch} --prefix=$NDK_PREFIX
-#./Configure -llog android-${go_arch} --prefix=$NDK_PREFIX
+./Configure -llog android-${go_arch} --prefix=$NDK_PREFIX
 make -j2
 make install_sw
 cd ..
 git clone --depth 1 https://github.com/pymumu/smartdns
 patch -p0 <${CI_PROJECT_DIR:?}/patch/smartdns.patch
 cd smartdns
+touch /tmp/keepalive
+bash jobs/debug.sh
 make CC=$host_cc CXX=$host_cxx LD=$TOOLCHAIN/bin/ld
 $PLATFORM-strip src/smartdns
 $PLATFORM-readelf -d src/smartdns
@@ -112,8 +113,6 @@ cargo update --manifest-path Cargo.toml
 cargo update --manifest-path crates/shadowsocks/Cargo.toml
 cargo update --manifest-path crates/shadowsocks-service/Cargo.toml
 cargo update --manifest-path crates/shadowsocks-tools/Cargo.toml
-#touch /tmp/keepalive
-#bash jobs/debug.sh
 export AR=$TOOLCHAIN/bin/llvm-ar
 export CC=$host_cc
 export AS=$CC
