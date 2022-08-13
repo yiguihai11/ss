@@ -87,7 +87,8 @@ rm -f ${latest_version}
 mv ${latest_version/.tar.gz/} openssl
 cd openssl
 ./Configure LIST
-./Configure -llog android-${go_arch} --prefix=$NDK_PREFIX
+./Configure android-${go_arch} --prefix=$NDK_PREFIX
+#./Configure -llog android-${go_arch} --prefix=$NDK_PREFIX
 make -j2
 make install_sw
 cd ..
