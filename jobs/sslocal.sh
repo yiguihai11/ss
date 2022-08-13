@@ -22,7 +22,7 @@ apt-get --yes install --no-install-recommends zip xz-utils wget
 wget https://nodejs.org/dist/v16.16.0/node-v${NODEJS_VER}-linux-x64.tar.xz
 tar xf node-v${NODEJS_VER}-linux-x64.tar.xz
 export PATH=$PATH:$(pwd)/node-v${NODEJS_VER}-linux-x64/bin
-npm install --global yarn
+npm install --location=global yarn
 git clone --depth 1 --recurse-submodules https://github.com/cloudreve/Cloudreve.git
 cd Cloudreve/assets
 export CI=false
