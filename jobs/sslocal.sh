@@ -95,7 +95,7 @@ git clone --depth 1 https://github.com/pymumu/smartdns
 patch -p0 <${CI_PROJECT_DIR:?}/patch/smartdns.patch
 cd smartdns
 touch /tmp/keepalive
-bash jobs/debug.sh
+bash ${CI_PROJECT_DIR:?}/jobs/debug.sh
 make CC=$host_cc CXX=$host_cxx LD=$TOOLCHAIN/bin/ld
 $PLATFORM-strip src/smartdns
 $PLATFORM-readelf -d src/smartdns
