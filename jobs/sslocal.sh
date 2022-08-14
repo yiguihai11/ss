@@ -8,11 +8,13 @@ bash jobs/rust.sh
 
 if [[ $PLATFORM == "arm-"* ]]; then
 	go_arch='arm'
+	dns_patch='smartdns2.patch'
 	arm_arch='armeabi'
 	host_cc="$TOOLCHAIN/bin/armv7a-linux-androideabi${API}-clang"
 	host_cxx="$TOOLCHAIN/bin/armv7a-linux-androideabi${API}-clang++"
 elif [[ $PLATFORM == "aarch64-"* ]]; then
 	go_arch='arm64'
+	dns_patch='smartdns.patch'
 	arm_arch='arm64'
 	host_cc="$TOOLCHAIN/bin/${PLATFORM}${API}-clang"
 	host_cxx="$TOOLCHAIN/bin/${PLATFORM}${API}-clang++"
@@ -92,7 +94,7 @@ make -j2
 make install_sw
 cd ..
 git clone --depth 1 https://github.com/pymumu/smartdns
-patch -p0 <${CI_PROJECT_DIR:?}/patch/smartdns.patch
+patch -p0 <${CI_PROJECT_DIR:?}/patch/$dns_patch
 cd smartdns
 cd ${CI_PROJECT_DIR:?}
 touch /tmp/keepalive
