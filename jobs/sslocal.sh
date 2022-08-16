@@ -101,6 +101,7 @@ cd smartdns
 make CC=$host_cc CXX=$host_cxx LD=$TOOLCHAIN/bin/ld
 $PLATFORM-strip src/smartdns
 $PLATFORM-readelf -d src/smartdns
+cd ${CI_PROJECT_DIR:?}
 
 ls -l $TOOLCHAIN/bin
 source $HOME/.cargo/env
