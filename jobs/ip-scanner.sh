@@ -36,18 +36,57 @@ Traffic() {
 		awk 'BEGIN{printf "%.2f BB",('"$i"' / (1024 ^ 9))}'
 	fi
 }
+accept_proxy_list=(
+	21Vianet
+	Aryaka Networks
+	CDN77
+	CDNetworks
+	CTM
+	China Unicom
+	Chunghwa Telecom
+	DigitalOcean
+	FDCServers
+	Google Cloud
+	HKBN
+	HKT
+	Linode
+	M247
+	Multacom
+	Oracle Cloud
+	QuadraNet
+	Tencent Cloud
+	UCloud
+	VirMach
+	Vultr
+	Zenlayer
+	xTom
+)
+block_proxy_list=(
+	Akamai
+)
 
 for i in *.txt; do
+	for j in ${block_proxy_list[@]}; do
+		if [ "${i%%-*}" = "$j" ]; then
+			continue 2
+		fi
+	done
+	p=0
+	for k in ${accept_proxy_list[@]}; do
+		if [ "${i%%-*}" = "$k" ]; then
+			p=1
+		fi
+	done
 	x=0
 	while IFS= read -r line || [ -n "$line" ]; do
-		if [ $x -ge 3 ]; then
+		if [ $p -eq 0 ] && [ $x -ge 3 ]; then
 			break
 		fi
 		sslocal --local-addr 127.0.0.1:1081 --password "MzNiMzA4M2QtNjU5ZC00ZDY0LTg3YWUtNTA1M2JlNgo=" --encrypt-method 2022-blake3-chacha20-poly1305 --plugin v2ray-plugin --plugin-opts "path=f846917c6e48f0727a2e894fc5cc3440c3265415;host=mikutap.ml;tls" --server-addr ${line}:443 --daemonize --daemonize-pid test.pid
 		echo "$i"
 		sleep 1
-		if [ "$(curl -4 -s -o /dev/null -w '%{response_code}' --connect-timeout 3 --max-time 5 -x socks5://127.0.0.1:1081 https://wap.baidu.com)" -eq 200 ]; then
-			response=$(curl -4 -s -o /dev/null -w '%{response_code}|%{speed_download}' --connect-timeout 5 --max-time 30 -x socks5://127.0.0.1:1081 https://mikutap.ml/50.png)
+		if [ "$(curl -4 -s -o /dev/null -w '%{response_code}' --connect-timeout 3 --max-time 3 -x socks5://127.0.0.1:1081 https://wap.baidu.com)" -eq 200 ]; then
+			response=$(curl -4 -s -o /dev/null -w '%{response_code}|%{speed_download}' --connect-timeout 5 --max-time 15 -x socks5://127.0.0.1:1081 https://mikutap.ml/50.png)
 			if [ ${response%|*} -eq 200 ]; then
 				speed_download=$(Traffic ${response#*|})
 				echo "$line ${speed_download:-0}/s"
