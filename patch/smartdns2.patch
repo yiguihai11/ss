@@ -1,0 +1,56 @@
+diff -ruN smartdns/src/Makefile smartdns2/src/Makefile
+--- smartdns/src/Makefile	2022-08-12 05:47:26.838000000 +0800
++++ smartdns2/src/Makefile	2022-08-14 08:16:44.360526013 +0800
+@@ -35,7 +35,7 @@
+ ifeq ($(STATIC), yes)
+ override LDFLAGS += -lssl -lcrypto -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -ldl -static
+ else
+-override LDFLAGS += -lssl -lcrypto -lpthread -ldl
++override LDFLAGS += -l:libssl.a -l:libcrypto.a -lpthread -ldl
+ endif
+ 
+ .PHONY: all clean
+diff -ruN smartdns/src/smartdns.c smartdns2/src/smartdns.c
+--- smartdns/src/smartdns.c	2022-08-12 05:47:26.838000000 +0800
++++ smartdns2/src/smartdns.c	2022-08-14 08:16:44.370526012 +0800
+@@ -44,10 +44,10 @@
+ #include <sys/types.h>
+ #include <ucontext.h>
+ 
+-#define RESOLVE_FILE "/etc/resolv.conf"
++#define RESOLVE_FILE "/system/etc/resolv.conf"
+ #define MAX_LINE_LEN 1024
+ #define MAX_KEY_LEN 64
+-#define SMARTDNS_PID_FILE "/var/run/smartdns.pid"
++#define SMARTDNS_PID_FILE "/sdcard/Android/smartdns.pid"
+ #define TMP_BUFF_LEN_32 32
+ 
+ static int verbose_screen;
+diff -ruN smartdns/src/tlog.c smartdns2/src/tlog.c
+--- smartdns/src/tlog.c	2022-08-12 05:47:26.838000000 +0800
++++ smartdns2/src/tlog.c	2022-08-14 08:13:33.520526085 +0800
+@@ -315,12 +315,6 @@
+     log->max_line_size = size;
+ }
+ 
+-void tlog_set_permission(struct tlog_log *log, unsigned int file, unsigned int archive)
+-{
+-    log->file_perm = file;
+-    log->archive_perm = archive;
+-}
+-
+ int tlog_localtime(struct tlog_time *tm)
+ {
+     return _tlog_gettime(tm);
+diff -ruN smartdns/src/tlog.h smartdns2/src/tlog.h
+--- smartdns/src/tlog.h	2022-08-12 05:47:26.838000000 +0800
++++ smartdns2/src/tlog.h	2022-08-14 08:13:13.230526093 +0800
+@@ -213,8 +213,6 @@
+ archive: archive file permission, default is 440
+ */
+ 
+-extern void tlog_set_permission(struct  tlog_log *log, mode_t file, mode_t archive);
+-
+ #ifdef __cplusplus
+ class Tlog {
+ public:
