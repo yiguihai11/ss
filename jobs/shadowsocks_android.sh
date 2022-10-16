@@ -4,8 +4,7 @@ set -e
 #mount -o remount,size=8G,noatime /sys/fs/cgroup
 df -h
 source jobs/ndk.sh
-#bash jobs/rust.sh nightly
-bash jobs/rust.sh
+bash jobs/rust.sh nightly
 source $HOME/.cargo/env
 export PATH=$PATH:$HOME/.cargo/bin
 apt-get -qqy update
