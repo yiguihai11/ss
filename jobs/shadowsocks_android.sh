@@ -15,6 +15,12 @@ df -h
 if [ -z "$CI_PROJECT_DIR" ]; then
 	CI_PROJECT_DIR=$(pwd)
 fi
+git clone --depth 1 https://github.com/libunwind/libunwind /tmp/libunwind
+cd /tmp/libunwind
+autoreconf -i 
+./configure --prefix=$NDK_PREFIX
+make
+make install
 #或者python2.7
 git clone --depth 1 https://github.com/shadowsocks/shadowsocks-android /tmp/shadowsocks-android
 cd /tmp/shadowsocks-android
