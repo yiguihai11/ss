@@ -15,7 +15,7 @@ df -h
 if [ -z "$CI_PROJECT_DIR" ]; then
 	CI_PROJECT_DIR=$(pwd)
 fi
-git clone --depth 1 https://github.com/libunwind/libunwind /tmp/libunwind
+git clone --depth 1 https://github.com/ivanarh/libunwind-ndk /tmp/libunwind
 cd /tmp/libunwind
 autoreconf -i
 env CC="$TOOLCHAIN/bin/aarch64-linux-android${ANDROID_API}-clang" CXX="$TOOLCHAIN/bin/aarch64-linux-android${ANDROID_API}-clang++" LD=$TOOLCHAIN/bin/ld ./configure --host=aarch64-linux-android --prefix=$NDK_PREFIX
