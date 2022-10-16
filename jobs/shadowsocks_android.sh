@@ -17,8 +17,8 @@ if [ -z "$CI_PROJECT_DIR" ]; then
 fi
 git clone --depth 1 https://github.com/libunwind/libunwind /tmp/libunwind
 cd /tmp/libunwind
-autoreconf -i 
-./configure --prefix=$NDK_PREFIX
+autoreconf -i
+env CC=$host_cc CXX=$host_cxx LD=$TOOLCHAIN/bin/ld ./configure --host=aarch64-linux-android --prefix=$NDK_PREFIX
 make
 make install
 #或者python2.7
