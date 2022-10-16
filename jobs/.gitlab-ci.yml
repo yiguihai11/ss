@@ -6,7 +6,8 @@ variables:
 
 测试:
   #image: debian:jessie
-  image: ubuntu:16.04
+  #image: ubuntu:16.04
+  image: openjdk:11.0.13-jdk-buster
   #image: ubuntu
   rules:
     - if: $SSH
