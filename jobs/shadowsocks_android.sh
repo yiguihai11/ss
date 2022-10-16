@@ -18,7 +18,7 @@ fi
 git clone --depth 1 https://github.com/libunwind/libunwind /tmp/libunwind
 cd /tmp/libunwind
 autoreconf -i
-env CC=$host_cc CXX=$host_cxx LD=$TOOLCHAIN/bin/ld ./configure --host=aarch64-linux-android --prefix=$NDK_PREFIX
+env CC="$TOOLCHAIN/bin/aarch64-linux-android${ANDROID_API}-clang" CXX="$TOOLCHAIN/bin/aarch64-linux-android${ANDROID_API}-clang++" LD=$TOOLCHAIN/bin/ld ./configure --host=aarch64-linux-android --prefix=$NDK_PREFIX
 make
 make install
 #或者python2.7
