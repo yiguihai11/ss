@@ -48,8 +48,8 @@ Check() {
 			speed_download=$(Traffic ${array[2]:-0})
 			echo "$line ${speed_download:-0}/s"
 			echo "${i%.*}, ${line}, ${speed_download% *}, ${speed_download#* }" >>${CI_PROJECT_DIR}/ip2.csv
-			#下载速度小于4MB/s的都可以滚了
-			if numCompare ${speed_download% *} 4 && [ "${speed_download#* }" = "MB" ]; then
+			#下载速度小于3MB/s的都可以滚了
+			if numCompare ${speed_download% *} 3 && [ "${speed_download#* }" = "MB" ]; then
 				echo "${i%.*}, ${line}, ${speed_download% *}, ${speed_download#* }" >>${CI_PROJECT_DIR}/best_ip.csv
 			fi
 		fi
