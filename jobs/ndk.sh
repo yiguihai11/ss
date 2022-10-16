@@ -29,7 +29,6 @@ yes | sdkmanager --sdk_root=${ANDROID_SDK_ROOT} --licenses || true
 #列出已安装和可用的软件包 https://developer.android.com/studio/command-line/sdkmanager
 #sdkmanager --sdk_root=${ANDROID_SDK_ROOT} --list
 data=$(sdkmanager --sdk_root=${ANDROID_SDK_ROOT} --list)
-sdkmanager --sdk_root=${ANDROID_SDK_ROOT} --list
 sdkmanager --sdk_root=${ANDROID_SDK_ROOT} --install "$(echo $data | grep -oP "platforms\;android\-[0-9]{2,}" | tail -n1)"
 sdkmanager --sdk_root=${ANDROID_SDK_ROOT} --install "platform-tools"
 sdkmanager --sdk_root=${ANDROID_SDK_ROOT} --install "ndk-bundle"
