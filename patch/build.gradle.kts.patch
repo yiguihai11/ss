@@ -1,0 +1,31 @@
+--- build.gradle.kts.bak
++++ build.gradle.kts
+@@ -19,7 +19,7 @@
+         consumerProguardFiles("proguard-rules.pro")
+ 
+         externalNativeBuild.ndkBuild {
+-            abiFilters("armeabi-v7a", "arm64-v8a", "x86", "x86_64")
++            abiFilters("armeabi-v7a", "arm64-v8a")
+             arguments("-j${Runtime.getRuntime().availableProcessors()}")
+         }
+ 
+@@ -39,7 +39,7 @@
+ cargo {
+     module = "src/main/rust/shadowsocks-rust"
+     libname = "sslocal"
+-    targets = listOf("arm", "arm64", "x86", "x86_64")
++    targets = listOf("arm", "arm64")
+     profile = findProperty("CARGO_PROFILE")?.toString() ?: currentFlavor
+     extraCargoBuildArguments = listOf("--bin", libname!!)
+     featureSpec.noDefaultBut(arrayOf(
+@@ -48,9 +48,8 @@
+         "logging",
+         "local-flow-stat",
+         "local-dns",
+-        "armv8",
+-        "neon",
+         "aead-cipher-2022",
++        "aead-cipher-2022-extra",
+     ))
+     exec = { spec, toolchain ->
+         run {

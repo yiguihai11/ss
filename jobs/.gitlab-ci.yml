@@ -1,0 +1,302 @@
+#以Ubuntu18.04(bionic)为蓝本GLIBC_2.27
+#image: ubuntu:bionic
+image: ubuntu:xenial
+variables:
+  DEBIAN_FRONTEND: "noninteractive"
+
+测试:
+  image: debian:jessie
+  #image: ubuntu:16.04
+  #image: openjdk:11.0.13-jdk-buster
+  #image: ubuntu
+  rules:
+    - if: $SSH
+  #when: manual
+  stage: build
+  script:
+    - cat /etc/os-release
+    - apt-get update -qqy
+    - apt-get -y --force-yes install --no-install-recommends binutils locales-all wget ca-certificates
+    - strings /lib/x86_64-linux-gnu/libm.so.6 | grep GLIBC_
+    - strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBCXX
+    - touch /tmp/keepalive
+    - bash jobs/debug.sh
+
+检查更新:
+  only:
+    - triggers
+    - schedules
+  stage: build
+  variables:
+    CI_DEBUG_TRACE: "true"
+  #before_script:
+    #- echo 1
+  script: bash -x jobs/check_ver.sh
+  #after_script:
+    #- export
+  retry: 2
+
+ss-main:
+  rules:
+    - if: $ss_main != 'false' && $ss_main_old
+  stage: build
+  script: bash jobs/ss_main.sh
+  retry: 2
+
+ss-tool:
+  rules:
+    - if: $ss_tool != 'false' && $ss_tool_old
+  stage: build
+  script: bash jobs/ss_tool.sh
+  retry: 2
+
+ipt2socks:
+  rules:
+    - if: $ipt2socks != 'false' && $ipt2socks_old
+  stage: build
+  script: bash -x jobs/ipt2socks.sh
+  retry: 2
+
+kcptun:
+  rules:
+    - if: $kcptun != 'false' && $kcptun_old
+  stage: build
+  script:
+    - bash jobs/golang.sh
+    - bash jobs/kcptun.sh
+  retry: 2
+
+v2ray-plugin:
+  #variables:
+    #GO_VER: "1.17"
+  rules:
+    - if: $v2ray_plugin != 'false' && $v2ray_plugin_old
+  stage: build
+  script:
+    - bash jobs/golang.sh
+    - bash jobs/v2ray_plugin.sh
+  retry: 2
+
+v2ray-core:
+  rules:
+    - if: $v2ray_core != 'false' && $v2ray_core_old
+  stage: build
+  script:
+    - bash jobs/golang.sh
+    - bash jobs/v2ray_core.sh
+  retry: 2
+
+tun2socks:
+  rules:
+    - if: $tun2socks != 'false' && $tun2socks_old
+  stage: build
+  script:
+    - bash jobs/golang.sh
+    - bash jobs/tun2socks.sh
+  retry: 2
+
+libqrencode:
+  rules:
+    - if: $qrencode != 'false' && $qrencode_old
+  stage: build
+  script: bash jobs/qrencode.sh
+  retry: 2
+
+simple-obfs:
+  rules:
+    - if: $simple_obfs != 'false' && $simple_obfs_old
+  stage: build
+  script: bash jobs/simple_obfs.sh
+  retry: 2
+
+shadowsocksr-libev:
+  #image: debian:10.11
+  rules:
+    - if: $shadowsocksr_libev != 'false' && $shadowsocksr_libev_old
+  stage: build
+  script: bash jobs/shadowsocksr_libev.sh
+  retry: 2
+
+trojan:
+  image: debian:jessie
+  rules:
+    - if: $trojan != 'false' && $trojan_old
+  stage: build
+  script: 
+    - bash jobs/openssl.sh
+    - bash jobs/boost.sh
+    - bash jobs/cmake.sh
+    - bash jobs/trojan.sh
+  retry: 2
+
+php:
+  rules:
+    - if: $php != 'false' && $php_old
+  stage: build
+  script:
+    - bash jobs/openssl.sh
+    - bash jobs/php.sh
+  artifacts:
+    paths:
+      - php/
+  retry: 2
+
+nginx-quic:
+  rules:
+    - if: $nginx_quic != 'false' && $nginx_quic_old
+  stage: build
+  script:
+    - bash jobs/golang.sh
+    - bash jobs/nginx_quic.sh
+  artifacts:
+    paths:
+      - temp/nginx/
+  retry: 2
+
+shadowsocks-rust:
+  rules:
+    - if: $shadowsocks_rust != 'false' && $shadowsocks_rust_old
+  stage: build
+  script:
+    - bash jobs/rust.sh
+    - bash jobs/shadowsocks_rust.sh
+  retry: 2
+
+shadowsocks_rust_local:
+  variables:
+    GO_VER: "1.18"
+    NODEJS_VER: "16.16.0"
+  stage: build
+  when: manual
+  parallel:
+    matrix:
+      - PLATFORM: [arm-linux-androideabi, armv7-linux-androideabi, aarch64-linux-android]
+  artifacts:
+    paths:
+      - shadowsocks-rust/target/$PLATFORM/release/sslocal
+      - simple-obfs/src/obfs-local
+      - kcptun/client/kcptun-client
+      - v2ray-plugin/v2ray-plugin
+      - CloudflareSpeedTest/CloudflareSpeedTest
+      - Cloudreve/cloudreve
+      - smartdns/src/smartdns
+      - acl/bypass-china.acl
+  script: bash jobs/sslocal.sh
+
+kcptun-android:
+  rules:
+    - if: $kcptun_android != 'false' && $kcptun_android_old
+  image: openjdk:11-jdk
+  stage: build
+  script: bash jobs/kcptun_android.sh
+  artifacts:
+    paths:
+      - outputs/
+
+#No space left on device报错无解太穷了
+.shadowsocks-android:
+  rules:
+    - if: $shadowsocks_android != 'false' && $shadowsocks_android_old
+  image: openjdk:11-jdk
+  stage: build
+  script: bash jobs/shadowsocks_android.sh
+
+.BBRv2内核:
+  image: $PLATFORM
+  stage: build
+  when: manual
+  parallel:
+    matrix:
+      - PLATFORM: [debian:jessie, ubuntu:16.04, debian:bullseye]
+  #artifacts:
+    #paths:
+      #- build/*.deb
+      #- build/libxt_tls_*.so
+      #- build/xt_tls_*.ko
+    #exclude:
+      #- build/**/*
+  script: bash jobs/bbrv2.sh
+  timeout: 2h 30m
+
+openwrt:
+  stage: build
+  when: manual
+  script: bash jobs/openwrt.sh
+  timeout: 5h
+  artifacts:
+    paths:
+      - tmp/
+
+IP扫描测试:
+  stage: build
+  when: manual
+  #only:
+    #- schedules
+  artifacts:
+    paths:
+      - ip.log
+      - ip2.csv
+      - best_ip.csv
+  script: bash jobs/ip-scanner.sh
+  timeout: 3h 30m
+
+.curl-http3:
+  stage: build
+  when: manual
+  script: 
+    - bash jobs/curl.sh
+  artifacts:
+    paths:
+      - curl/bin/curl
+
+.Python:
+  stage: build
+  when: manual
+  artifacts:
+    paths:
+      - Python-*.tar.gz
+  script: bash jobs/python.sh
+
+UPX压缩:
+  rules:
+    - if: $update == 'true'
+  stage: test
+  script: bash jobs/compressor.sh
+  retry: 2
+
+测试运行:
+  image: $PLATFORM
+  needs: ["UPX压缩"]
+  rules:
+    - if: $update == 'true'
+  parallel:
+    matrix:
+      - PLATFORM: [debian:jessie, ubuntu:16.04, debian:latest, ubuntu:latest]
+  stage: test
+  script: bash jobs/test.sh
+
+后续整理工作:
+  needs: ["测试运行"]
+  rules:
+    - if: $update == 'true'
+  stage: deploy
+  script: bash jobs/deploy.sh
+
+清理编译记录:
+  needs: ["后续整理工作"]
+  rules:
+    - if: $update == 'true'
+  stage: deploy
+  #when: manual
+  script: bash jobs/clean_ci_log.sh
+
+重置提交记录:
+  needs: ["后续整理工作"]
+  rules:
+    - if: $update == 'true'
+  #only:
+    #- triggers
+    #- schedules
+  stage: deploy
+  #when: manual
+  script: bash jobs/reset.sh

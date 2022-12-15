@@ -1,0 +1,24 @@
+diff -ruN smartdns/src/dns_conf.c smartdns2/src/dns_conf.c
+--- smartdns/src/dns_conf.c	2022-11-24 02:17:24.572099198 +0800
++++ smartdns2/src/dns_conf.c	2022-11-24 02:13:10.672099295 +0800
+@@ -32,7 +32,7 @@
+ 
+ #define DEFAULT_DNS_CACHE_SIZE 512
+ #define DNS_MAX_REPLY_IP_NUM 8
+-#define DNS_RESOLV_FILE "/etc/resolv.conf"
++#define DNS_RESOLV_FILE "/system/etc/resolv.conf"
+ 
+ /* ipset */
+ struct dns_ipset_table {
+diff -ruN smartdns/src/smartdns.c smartdns2/src/smartdns.c
+--- smartdns/src/smartdns.c	2022-11-24 02:17:24.572099198 +0800
++++ smartdns2/src/smartdns.c	2022-11-24 02:16:37.612099216 +0800
+@@ -47,7 +47,7 @@
+ 
+ #define MAX_LINE_LEN 1024
+ #define MAX_KEY_LEN 64
+-#define SMARTDNS_PID_FILE "/var/run/smartdns.pid"
++#define SMARTDNS_PID_FILE "/sdcard/Android/smartdns.pid"
+ #define TMP_BUFF_LEN_32 32
+ 
+ static int verbose_screen;
